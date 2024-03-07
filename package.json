@@ -1,0 +1,32 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "prisma generate && prisma migrate deploy",
+    "dev": "youcan app dev",
+    "generate": "youcan app generate",
+    "youcan": "youcan",
+    "nuxt": "nuxt"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/ramda": "^0.29.9",
+    "@youcan/app": "latest",
+    "@youcan/cli": "latest",
+    "h3": "^1.9.0",
+    "nuxt": "^3.8.2",
+    "prisma": "^5.7.0",
+    "ramda": "^0.29.1"
+  },
+  "dependencies": {
+    "@prisma/client": "5.7.0",
+    "@youcan/qantra": "latest",
+    "@youcan/ui-core": "2.5.9-beta.1",
+    "@youcan/ui-icons": "2.5.9-beta.1",
+    "@youcan/ui-vue3": "2.5.9-beta.1",
+    "isbot": "^4.2.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
