@@ -1,3 +1,14 @@
 {
-    "name": "prodotto"
+    "name": "prodotto",
+    "id": "dapp_2dMkF2D4xIzrImocaoWFl8RdvJe",
+    "app_url": "http://localhost:3000",
+    "redirect_urls": [
+        "http://localhost:3000/auth/callback"
+    ],
+    "oauth": {
+        "scopes": [
+            "*"
+        ],
+        "client_id": "68"
+    }
 }
