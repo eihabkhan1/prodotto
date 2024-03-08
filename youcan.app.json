@@ -1,6 +1,6 @@
 {
     "name": "prodotto",
-    "id": "dapp_2dMkF2D4xIzrImocaoWFl8RdvJe",
+    "id": "dapp_2dP0NYsaVKK1UpdFEVZLoYQ1Qem",
     "app_url": "http://localhost:3000",
     "redirect_urls": [
         "http://localhost:3000/auth/callback"
@@ -9,6 +9,6 @@
         "scopes": [
             "*"
         ],
-        "client_id": "68"
+        "client_id": "88"
     }
 }
