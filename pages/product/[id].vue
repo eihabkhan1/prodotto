@@ -3,20 +3,20 @@ import { MultiSwitch, TertiaryButton } from '@youcan/ui-vue3'
 import type { SwitchButtonOption } from '@youcan/ui-vue3/types'
 import MetaDescriptionForm from '~/components/MetaDescriptionForm.vue'
 
-const OPTIONS: SwitchButtonOption[] = [
-  {
-    label: 'Description',
-    value: 1,
-    icon: '',
-  },
-  {
-    label: 'Meta Description',
-    value: 2,
-    icon: '',
-  },
-]
+// const OPTIONS: SwitchButtonOption[] = [
+//   {
+//     label: 'Description',
+//     value: 1,
+//     icon: '',
+//   },
+//   {
+//     label: 'Meta Description',
+//     value: 2,
+//     icon: '',
+//   },
+// ]
 
-const activeOption = ref<SwitchButtonOption>(OPTIONS[0])
+// const activeOption = ref<SwitchButtonOption>(OPTIONS[0])
 </script>
 
 <template>
@@ -32,12 +32,12 @@ const activeOption = ref<SwitchButtonOption>(OPTIONS[0])
       <div
         class="flex flex-col basis-1/3 bg-white border border-gray-100 p-4 rounded-lg shadow-sm"
       >
-        <MultiSwitch
+        <!-- <MultiSwitch
           v-model:selected-option="activeOption"
           :options="OPTIONS"
-        />
-        <DescriptionForm v-if="activeOption.value === 1" />
-        <MetaDescriptionForm v-if="activeOption.value === 2" />
+        /> -->
+        <DescriptionForm />
+        <!-- <MetaDescriptionForm  /> -->
         <PrimaryButton class="w-full mt-auto"> Generate </PrimaryButton>
       </div>
       <!-- Output -->
