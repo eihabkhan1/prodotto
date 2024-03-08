@@ -15,13 +15,17 @@
     "@types/ramda": "^0.29.9",
     "@youcan/app": "latest",
     "@youcan/cli": "latest",
+    "autoprefixer": "^10.4.18",
     "h3": "^1.9.0",
     "nuxt": "^3.8.2",
+    "postcss": "^8.4.35",
     "prisma": "^5.7.0",
-    "ramda": "^0.29.1"
+    "ramda": "^0.29.1",
+    "tailwindcss": "^3.4.1"
   },
   "dependencies": {
     "@prisma/client": "5.7.0",
+    "@vueup/vue-quill": "^1.2.0",
     "@youcan/qantra": "latest",
     "@youcan/ui-core": "2.5.9-beta.1",
     "@youcan/ui-icons": "2.5.9-beta.1",
