@@ -1,12 +1,12 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1 class="">Hello world!</h1>
+  <main class="max-w-[1000px] mx-auto">
+    <div class="">
+      <h1>Your products</h1>
+      <div class="products">
+        <ul class="products-list"></ul>
+      </div>
+    </div>
+  </main>
 </template>
-
-<style>
-html {
-  background-color: white;
-  font: var(--text-sm-regular);
-}
-</style>

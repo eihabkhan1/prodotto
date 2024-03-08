@@ -1,25 +1,12 @@
 <template>
   <!-- Prodotto logo -->
-  <header class="header">
+  <header class="flex justify-center items-center p-4">
     <img
-      class="brand"
+      class="opacity-10"
       src="/assets/brand/symbol-black.svg"
       alt="Prodotto 🤌 Logo"
-      width="52"
-      height="52"
+      width="40"
+      height="40"
     />
   </header>
 </template>
-
-<style>
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-}
-
-.brand {
-  opacity: 0.1;
-}
-</style>

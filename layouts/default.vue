@@ -4,12 +4,8 @@ import { AppNav, AppFooter } from '#components'
 
 <template>
   <AppNav />
-  <slot />
+  <div class="h-[calc(100vh-180px)] bg-red-400">
+    <slot />
+  </div>
   <AppFooter />
 </template>
-
-<style>
-html {
-  background-color: white;
-}
-</style>

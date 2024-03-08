@@ -3,4 +3,10 @@ export default defineNuxtConfig({
   extends: ['./youcan'],
   devtools: { enabled: true },
   css: ['@/assets/css/global.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })

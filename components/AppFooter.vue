@@ -1,16 +1,6 @@
 <template>
   <!-- Prodotto text -->
-  <div class="container">
-    <span>Prodotto 🤌</span>
+  <div class="flex justify-center accent-inherit p-6 font-medium">
+    <span class="text-gray-400">Prodotto 🤌</span>
   </div>
 </template>
-
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  font-weight: 500;
-}
-</style>
