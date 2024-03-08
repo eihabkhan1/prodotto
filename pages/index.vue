@@ -1,11 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>
-    Hello, I'm the app.
-  </div>
+  <h1 class="">Hello world!</h1>
 </template>
 
 <style>
