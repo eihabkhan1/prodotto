@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+</script>
 
 <template>
   <div
@@ -6,7 +9,11 @@
   >
     <p class="text-xl">Output</p>
     <!-- Editor -->
-    <div class="flex-1 bg-gray-50"></div>
+    <div class="flex-1 bg-gray-50">
+      <ClientOnly>
+        <QuillEditor theme="snow" />
+      </ClientOnly>
+    </div>
     <!-- Actions -->
     <div class="flex justify-end items-center gap-4">
       <SecondaryButton> Copy to Clipboard </SecondaryButton>

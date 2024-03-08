@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ql-container.ql-snow {
+  border: unset !important;
+}
+
+.ql-toolbar.ql-snow {
+  border: unset !important;
+  border-bottom: 1px solid #d1d5db !important;
+}
