@@ -23,17 +23,20 @@ const description = ref(product.description)
 const outputLanguage = ref(languages[0])
 
 async function generateDescription() {
-  const res = await qantra.fetch(`/api/generate/`, {
+  // Send data to the server through a separate POST request
+  const desc = await $fetch(`/api/generate/`, {
     method: 'POST',
-    body: {
+    body: JSON.stringify({
       store: product.store,
       product: product.name,
       category: product.category.join(', '),
       price: formatCurrency(product.price, product.currency, 'en-MA'),
       promtDetails: promptDetails.value,
       language: outputLanguage.value.value,
-    },
+    }),
   })
+
+  description.value = desc
 }
 </script>
 
@@ -45,7 +48,7 @@ async function generateDescription() {
       <span>Back to products</span>
     </NuxtLink>
     <!-- Main -->
-    <main class="flex gap-4 w-full h-[calc(100vh-240px)]">
+    <main class="flex gap-4 w-full">
       <!-- Controls -->
       <div
         class="flex flex-col basis-1/3 bg-white border border-gray-100 p-4 rounded-lg shadow-sm"
@@ -88,7 +91,7 @@ async function generateDescription() {
       </div>
       <!-- Output -->
       <div
-        class="flex flex-col gap-4 bg-white border border-gray-100 p-4 rounded-lg shadow-sm basis-2/3"
+        class="flex flex-col gap-4 bg-white border border-gray-100 p-4 rounded-lg shadow-sm basis-2/3 h-auto"
       >
         <p class="text-xl">Output</p>
         <!-- Editor -->
@@ -98,6 +101,7 @@ async function generateDescription() {
               v-model:content="description"
               contentType="html"
               theme="snow"
+              class="h-[400px]"
             />
           </ClientOnly>
         </div>

@@ -8,3 +8,12 @@ export interface ProductProps {
   imageUrl?: string
   ctaLabel?: string
 }
+
+export interface ProductPrompt {
+  store: string
+  product: string
+  category: string
+  price: string
+  metaDesc: string
+  language: string
+}
