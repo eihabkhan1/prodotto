@@ -9,16 +9,32 @@ const qantra = useQantra()
 const res = await qantra.fetch(`/api/products/${productId}`)
 const product = res.data.value
 
-const languages = [
-  { label: 'English', value: 1 },
-  { label: 'Arabic', value: 2 },
-  { label: 'French', value: 3 },
-]
+const languages = Array.from([
+  'English',
+  'Arabic',
+  'French',
+  'Italian',
+  'German',
+]).map((lang) => ({ label: lang, value: lang }))
 
 const title = ref(product.name)
 const promptDetails = ref('')
 const description = ref(product.description)
 const outputLanguage = ref(languages[0])
+
+async function generateDescription() {
+  const res = await qantra.fetch(`/api/generate/`, {
+    method: 'POST',
+    body: {
+      store: product.store,
+      product: product.name,
+      category: product.category.join(', '),
+      price: formatCurrency(product.price, product.currency, 'en-MA'),
+      promtDetails: promptDetails.value,
+      language: outputLanguage.value.value,
+    },
+  })
+}
 </script>
 
 <template>
@@ -66,7 +82,9 @@ const outputLanguage = ref(languages[0])
             </template>
           </InputGroup>
         </div>
-        <PrimaryButton class="w-full mt-auto"> Generate </PrimaryButton>
+        <PrimaryButton class="w-full mt-auto" @click="generateDescription">
+          Generate
+        </PrimaryButton>
       </div>
       <!-- Output -->
       <div

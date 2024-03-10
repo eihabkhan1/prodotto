@@ -6,19 +6,35 @@ export default defineEventHandler(async (event) => {
   const { accessToken } = event.context.session
 
   try {
-    const { data } = await storeClient.get(`/products/${productId}`, {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-      },
-    })
+    const [meResponse, productResponse] = await Promise.all([
+      storeClient.get('/me', {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      }),
+      storeClient.get(`/products/${productId}?include=categories`, {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      }),
+    ])
+
+    const me = meResponse.data
+    const data = productResponse.data
+    const categories = data.categories
+      .filter((cat: any) => cat.show_on_collection)
+      .map((cat: any) => cat.name)
 
     return {
       id: data.id,
       name: data.name,
-      description: data.description,
+      desc: data.description,
       visibility: data.visibility,
       price: data.price,
       images: data.images,
+      store: me.domain,
+      currency: me.currency.code,
+      category: categories,
     }
   } catch (error) {
     if (isAxiosError(error))
