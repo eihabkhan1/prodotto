@@ -149,7 +149,7 @@ async function saveToStore() {
             <span>Please wait...</span>
           </div>
         </div>
-        <div class="h-full flex justify-center items-center">
+        <div v-else class="h-full flex justify-center items-center">
           <p class="text-gray-400">
             Click on the "Generate" button to start generating description for
             {{ product.name }}

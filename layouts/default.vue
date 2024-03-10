@@ -5,7 +5,7 @@ import { AppNav, AppFooter } from '#components'
 <template>
   <div class="bg-[#FCFCFC]">
     <AppNav />
-    <div class="h-fit">
+    <div class="h-[calc(100vh-160px)]">
       <slot />
     </div>
     <AppFooter />
