@@ -1,36 +1,24 @@
-import { isAxiosError } from "axios";
-import storeClient from "~/lib/storeClient";
+import { isAxiosError } from 'axios'
+import storeClient from '~/lib/storeClient'
 
-export default defineEventHandler((event) => {
-    const { accessToken } = event.context.session;
-    const  productId = event.context.params?.id;
+export default defineEventHandler(async (event) => {
+  const { accessToken } = event.context.session
+  const productId = event.context.params?.id
+  const { name, description } = await readBody(event)
 
-    
-    // console.log("TOKEN", context.session);
-    // try {
-    //     const productId = event.context.params?.id;
-    //     const body = await readBody(event);
+  try {
+    const res = await storeClient.post(`/products/update/${productId}`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+      body: {
+        name: name,
+        description: description,
+      },
+    })
 
-    //     const formData = new FormData();
-
-    //     formData.append('description', body.description);
-
-    //     const data =  (await storeClient.post(`/products/update/${productId}`, formData,
-    //     {
-    //         headers: {
-    //             Authorization: 'Bearer ' + accessToken,
-    //         }
-    //     }
-    //     )).data;
-
-    //     console.log(data);
-
-    // } catch (error) {
-    //     if (isAxiosError(error))
-    //         throw createError({
-    //             "statusCode": error.response?.status,
-    //             "statusText": error.response?.statusText,
-    //         });
-    // }
-    return []
+    console.log('success:', res.data)
+  } catch (error) {
+    console.log(error)
+  }
 })

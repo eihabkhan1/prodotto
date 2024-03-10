@@ -9,7 +9,9 @@ export function productDescriptionPrompt({
   language,
 }: ProductPrompt) {
   return `
-      I am looking to revamp the product descriptions on my website ${store} to increase conversions. Generate clear and concise, and persuasive, descriptions for our ${product}, this ${product} is under the category/categories: ${category}, costing ${price}${
+      New context: Generate clear and concise, and persuasive, descriptions for our ${product}, this ${product} is under the category/categories: ${category}, costing ${price}${
     metaDesc ? ` and described as ${metaDesc}` : ''
-  }, description needs to be in ${language} language. Ensure cultural nuances are respected and the description resonates with native speakers.`
+  }, description needs to be in ${language} language. Ensure cultural nuances are respected and the description resonates with native speakers.
+  Response should be in HTML format and you should not have any explainations; I.E output directly
+  `
 }

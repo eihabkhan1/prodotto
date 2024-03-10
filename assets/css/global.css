@@ -10,3 +10,7 @@
   border: unset !important;
   border-bottom: 1px solid #d1d5db !important;
 }
+
+.ql-editor {
+  max-height: 400px;
+}

@@ -21,9 +21,11 @@ const title = ref(product.name)
 const promptDetails = ref('')
 const description = ref(product.description)
 const outputLanguage = ref(languages[0])
+const isGenerating = ref(false)
 
 async function generateDescription() {
   // Send data to the server through a separate POST request
+  isGenerating.value = true
   const desc = await $fetch(`/api/generate/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -37,6 +39,21 @@ async function generateDescription() {
   })
 
   description.value = desc
+  isGenerating.value = false
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(description.value)
+}
+
+async function saveToStore() {
+  const res = await qantra.fetch(`/api/products/${productId}`, {
+    method: 'POST',
+    body: {
+      name: title.value,
+      description: description.value,
+    },
+  })
 }
 </script>
 
@@ -73,7 +90,7 @@ async function generateDescription() {
               description will be
             </template>
           </InputGroup>
-          <InputGroup>
+          <!-- <InputGroup>
             <template #label> Description output language </template>
             <template #input>
               <Dropdown
@@ -83,10 +100,14 @@ async function generateDescription() {
                 placeholder="Output Language"
               />
             </template>
-          </InputGroup>
+          </InputGroup> -->
         </div>
-        <PrimaryButton class="w-full mt-auto" @click="generateDescription">
-          Generate
+        <PrimaryButton
+          :disabled="isGenerating"
+          class="w-full mt-auto"
+          @click="generateDescription"
+        >
+          {{ isGenerating ? 'Generating...' : 'Generate' }}
         </PrimaryButton>
       </div>
       <!-- Output -->
@@ -101,14 +122,16 @@ async function generateDescription() {
               v-model:content="description"
               contentType="html"
               theme="snow"
-              class="h-[400px]"
+              class="h-[360px]"
             />
           </ClientOnly>
         </div>
         <!-- Actions -->
         <div class="flex justify-end items-center gap-4">
-          <SecondaryButton> Copy to Clipboard </SecondaryButton>
-          <PrimaryButton> Save to Store </PrimaryButton>
+          <SecondaryButton @click="copyToClipboard">
+            Copy to Clipboard
+          </SecondaryButton>
+          <PrimaryButton @click="saveToStore"> Save to Store </PrimaryButton>
         </div>
       </div>
     </main>
