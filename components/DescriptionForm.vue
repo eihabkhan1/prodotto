@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// TODO: Add Pinia store
-const username = ref('')
-const comment = ref('')
+const title = ref('')
+const promptDetails = ref('')
 const languages = [
   { label: 'English', value: 1 },
   { label: 'Arabic', value: 2 },
@@ -15,13 +14,13 @@ const outputLanguage = ref(languages[0])
     <InputGroup>
       <template #label> Title </template>
       <template #input>
-        <Input v-model="username" placeholder="e.g Apple MacBook Pro" />
+        <Input v-model="title" placeholder="e.g Apple MacBook Pro" />
       </template>
     </InputGroup>
     <InputGroup>
       <template #label> Additional product details (optional) </template>
       <template #input>
-        <TextArea v-model="comment" placeholder="Leave your comment" />
+        <TextArea v-model="promptDetails" placeholder="Leave your comment" />
       </template>
       <template #info>
         The more info you provide on the product the accurate the description

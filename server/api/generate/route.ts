@@ -1,3 +1,3 @@
 export default defineEventHandler(async (event) => {
-    console.log(event);
+  console.log(event)
 })

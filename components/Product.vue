@@ -4,12 +4,18 @@ import type { ProductProps } from './types'
 
 withDefaults(defineProps<ProductProps>(), {
   title: 'Product title',
-  description: 'Product description',
+  inventroy: 0,
   price: '0.00',
-  status: 'visible',
+  visible: false,
   ctaLabel: 'Generate',
   id: '1',
 })
+
+const imageError = ref(false)
+
+function handleImageError() {
+  imageError.value = true
+}
 </script>
 
 <template>
@@ -19,12 +25,13 @@ withDefaults(defineProps<ProductProps>(), {
       class="bg-gray-200 flex justify-center items-center w-[120px] h-[120px] border-gray-100 rounded-lg overflow-hidden"
     >
       <img
-        v-if="imageUrl"
+        v-if="imageError && !imageError"
         :src="imageUrl"
         alt=""
         class="object-cover"
         height="120"
         width="120"
+        @error="handleImageError"
       />
       <img
         v-else
@@ -40,18 +47,28 @@ withDefaults(defineProps<ProductProps>(), {
       <div class="flex justify-between items-center">
         <!-- Header -->
         <p class="font-bold">{{ title }}</p>
-        <span>{{ status }}</span>
+        <span
+          class="bg-green-100 text-green-600 px-2 rounded-md"
+          v-if="visible"
+        >
+          Visible
+        </span>
+        <span v-else class="bg-gray-100 text-gray-600 px-2 rounded-md">
+          Hidden
+        </span>
       </div>
       <!-- Details -->
       <div class="flex items-end h-full">
         <!-- Details -->
         <div class="flex flex-col gap-2 flex-1 h-full">
           <!-- Description -->
-          <p class="line-clamp-3 text-sm text-gray-500">
+          <p class="line-clamp-1 text-sm text-gray-500">
             {{ description }}
           </p>
+          <!-- Inventory -->
+          <p class="text-sm text-gray-500">{{ inventory }} in stock</p>
           <!-- Price -->
-          <p class="mt-auto">MAD 1.999,00</p>
+          <p class="mt-auto">{{ price }}</p>
         </div>
         <!-- Action (Generate) -->
         <div class="ps-10">

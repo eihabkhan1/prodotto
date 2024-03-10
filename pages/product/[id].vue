@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { MultiSwitch, TertiaryButton } from '@youcan/ui-vue3'
-import type { SwitchButtonOption } from '@youcan/ui-vue3/types'
-import MetaDescriptionForm from '~/components/MetaDescriptionForm.vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
-// const OPTIONS: SwitchButtonOption[] = [
-//   {
-//     label: 'Description',
-//     value: 1,
-//     icon: '',
-//   },
-//   {
-//     label: 'Meta Description',
-//     value: 2,
-//     icon: '',
-//   },
-// ]
+const route = useRoute()
+const productId = route.params.id
 
-// const activeOption = ref<SwitchButtonOption>(OPTIONS[0])
+const qantra = useQantra()
+const res = await qantra.fetch(`/api/products/${productId}`)
+const product = res.data.value
+
+const languages = [
+  { label: 'English', value: 1 },
+  { label: 'Arabic', value: 2 },
+  { label: 'French', value: 3 },
+]
+
+const title = ref(product.name)
+const promptDetails = ref('')
+const description = ref(product.description)
+const outputLanguage = ref(languages[0])
 </script>
 
 <template>
@@ -32,16 +34,61 @@ import MetaDescriptionForm from '~/components/MetaDescriptionForm.vue'
       <div
         class="flex flex-col basis-1/3 bg-white border border-gray-100 p-4 rounded-lg shadow-sm"
       >
-        <!-- <MultiSwitch
-          v-model:selected-option="activeOption"
-          :options="OPTIONS"
-        /> -->
-        <DescriptionForm />
-        <!-- <MetaDescriptionForm  /> -->
+        <div class="py-4 flex flex-col gap-4">
+          <InputGroup>
+            <template #label> Title </template>
+            <template #input>
+              <Input v-model="title" placeholder="e.g Apple MacBook Pro" />
+            </template>
+          </InputGroup>
+          <InputGroup>
+            <template #label> Additional product details (optional) </template>
+            <template #input>
+              <TextArea
+                v-model="promptDetails"
+                placeholder="Leave your comment"
+              />
+            </template>
+            <template #info>
+              The more info you provide on the product the accurate the
+              description will be
+            </template>
+          </InputGroup>
+          <InputGroup>
+            <template #label> Description output language </template>
+            <template #input>
+              <Dropdown
+                v-model="outputLanguage"
+                searchable
+                :items="languages"
+                placeholder="Output Language"
+              />
+            </template>
+          </InputGroup>
+        </div>
         <PrimaryButton class="w-full mt-auto"> Generate </PrimaryButton>
       </div>
       <!-- Output -->
-      <DescriptionOutput />
+      <div
+        class="flex flex-col gap-4 bg-white border border-gray-100 p-4 rounded-lg shadow-sm basis-2/3"
+      >
+        <p class="text-xl">Output</p>
+        <!-- Editor -->
+        <div class="flex-1 bg-gray-50">
+          <ClientOnly>
+            <QuillEditor
+              v-model:content="description"
+              contentType="html"
+              theme="snow"
+            />
+          </ClientOnly>
+        </div>
+        <!-- Actions -->
+        <div class="flex justify-end items-center gap-4">
+          <SecondaryButton> Copy to Clipboard </SecondaryButton>
+          <PrimaryButton> Save to Store </PrimaryButton>
+        </div>
+      </div>
     </main>
   </div>
 </template>
