@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { Loading } from '@youcan/ui-vue3'
 
 const route = useRoute()
 const productId = route.params.id
@@ -26,6 +27,7 @@ const isGenerating = ref(false)
 async function generateDescription() {
   // Send data to the server through a separate POST request
   isGenerating.value = true
+  description.value = ''
   const desc = await $fetch(`/api/generate/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -112,26 +114,46 @@ async function saveToStore() {
       </div>
       <!-- Output -->
       <div
-        class="flex flex-col gap-4 bg-white border border-gray-100 p-4 rounded-lg shadow-sm basis-2/3 h-auto"
+        class="bg-white border border-gray-100 p-4 rounded-lg shadow-sm basis-2/3"
       >
-        <p class="text-xl">Output</p>
-        <!-- Editor -->
-        <div class="flex-1 bg-gray-50">
-          <ClientOnly>
-            <QuillEditor
-              v-model:content="description"
-              contentType="html"
-              theme="snow"
-              class="h-[360px]"
-            />
-          </ClientOnly>
+        <div v-if="description" class="flex flex-col gap-4 h-full">
+          <p class="text-xl">Output</p>
+          <!-- Editor -->
+          <div class="flex-1 bg-gray-50">
+            <ClientOnly>
+              <QuillEditor
+                v-model:content="description"
+                contentType="html"
+                theme="snow"
+                class="h-[360px]"
+              />
+            </ClientOnly>
+          </div>
+          <!-- Actions -->
+          <div class="flex justify-end items-center gap-4">
+            <SecondaryButton @click="copyToClipboard">
+              Copy to Clipboard
+            </SecondaryButton>
+            <PrimaryButton @click="saveToStore"> Save to Store </PrimaryButton>
+          </div>
         </div>
-        <!-- Actions -->
-        <div class="flex justify-end items-center gap-4">
-          <SecondaryButton @click="copyToClipboard">
-            Copy to Clipboard
-          </SecondaryButton>
-          <PrimaryButton @click="saveToStore"> Save to Store </PrimaryButton>
+        <div
+          v-else-if="isGenerating"
+          class="h-full flex flex-col gap-4 justify-center items-center"
+        >
+          <Loading :duration="15000" />
+          <div
+            class="flex flex-col gap-1 text-gray-400 justify-center items-center"
+          >
+            <p>Generating description, this might take some time.</p>
+            <span>Please wait...</span>
+          </div>
+        </div>
+        <div class="h-full flex justify-center items-center">
+          <p class="text-gray-400">
+            Click on the "Generate" button to start generating description for
+            {{ product.name }}
+          </p>
         </div>
       </div>
     </main>
