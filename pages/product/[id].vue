@@ -6,6 +6,9 @@ import { ToastContainer } from '@youcan/ui-vue3'
 import { toast } from '@youcan/ui-vue3/helpers'
 import type { ToastOptions } from '@youcan/ui-vue3/types'
 
+import * as animationData from '../../assets/animations/loading.json'
+import { Vue3Lottie } from 'vue3-lottie'
+
 const route = useRoute()
 const productId = route.params.id
 
@@ -175,9 +178,16 @@ async function saveToStore() {
         </div>
         <div
           v-else-if="isGenerating"
-          class="h-full flex flex-col gap-4 justify-center items-center"
+          class="h-full flex flex-col justify-center items-center"
         >
-          <Loading :duration="15000" />
+          <client-only>
+            <Vue3Lottie
+              animationLink="https://lottie.host/9d2a28d9-5e40-4ae7-b74f-d88cd4093fc0/6bvwVxUOYn.json"
+              :height="300"
+              :width="300"
+            />
+          </client-only>
+          <!-- <Loading :duration="15000" /> -->
           <div
             class="flex flex-col gap-1 text-gray-400 justify-center items-center"
           >
