@@ -54,6 +54,8 @@ async function saveToStore() {
     body: {
       name: title.value,
       description: description.value,
+      has_variants: product.has_variants,
+      price: product.price,
     },
   })
 }
