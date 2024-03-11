@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
       }
     )
 
-    console.log('success:', res)
+    return res
   } catch (error) {
     console.log(error)
   }

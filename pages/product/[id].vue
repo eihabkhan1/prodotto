@@ -2,6 +2,9 @@
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { Loading } from '@youcan/ui-vue3'
+import { ToastContainer } from '@youcan/ui-vue3'
+import { toast } from '@youcan/ui-vue3/helpers'
+import type { ToastOptions } from '@youcan/ui-vue3/types'
 
 const route = useRoute()
 const productId = route.params.id
@@ -23,6 +26,7 @@ const promptDetails = ref('')
 const description = ref(product.description)
 const outputLanguage = ref(languages[0])
 const isGenerating = ref(false)
+const isSaving = ref(false)
 
 async function generateDescription() {
   // Send data to the server through a separate POST request
@@ -49,19 +53,43 @@ function copyToClipboard() {
 }
 
 async function saveToStore() {
-  const res = await qantra.fetch(`/api/products/${productId}`, {
-    method: 'POST',
-    body: {
-      name: title.value,
-      description: description.value,
-      has_variants: product.has_variants,
-      price: product.price,
-    },
-  })
+  isSaving.value = true
+
+  try {
+    const res = await qantra.fetch(`/api/products/${productId}`, {
+      method: 'POST',
+      body: {
+        name: title.value,
+        description: description.value,
+        has_variants: product.has_variants,
+        price: product.price,
+      },
+    })
+    if (res?.status?.value === 'success') {
+      const toastOptions: ToastOptions = {
+        title: 'Description Saved',
+        description: 'New description has been saved to store',
+        type: 'success',
+      }
+      toast.show(toastOptions)
+    }
+  } catch (error) {
+    console.error(error)
+
+    const toastOptions: ToastOptions = {
+      title: 'Save failed',
+      description: "We couldn't save the description, please try again.",
+      type: 'error',
+    }
+    toast.show(toastOptions)
+  } finally {
+    isSaving.value = false
+  }
 }
 </script>
 
 <template>
+  <ToastContainer :limit="3" />
   <div class="flex flex-col justify-start items-start px-10 mx-auto">
     <!-- Back -->
     <NuxtLink to="/" class="flex gap-2 justify-center items-center mb-4">
@@ -78,7 +106,11 @@ async function saveToStore() {
           <InputGroup>
             <template #label> Title </template>
             <template #input>
-              <Input v-model="title" placeholder="e.g Apple MacBook Pro" />
+              <Input
+                disabled
+                v-model="title"
+                placeholder="e.g Apple MacBook Pro"
+              />
             </template>
           </InputGroup>
           <InputGroup>
@@ -94,7 +126,7 @@ async function saveToStore() {
               description will be
             </template>
           </InputGroup>
-          <!-- <InputGroup>
+          <InputGroup>
             <template #label> Description output language </template>
             <template #input>
               <Dropdown
@@ -104,7 +136,7 @@ async function saveToStore() {
                 placeholder="Output Language"
               />
             </template>
-          </InputGroup> -->
+          </InputGroup>
         </div>
         <PrimaryButton
           :disabled="isGenerating"
@@ -127,7 +159,7 @@ async function saveToStore() {
                 v-model:content="description"
                 contentType="html"
                 theme="snow"
-                class="h-[360px]"
+                class="h-[320px]"
               />
             </ClientOnly>
           </div>
@@ -136,7 +168,9 @@ async function saveToStore() {
             <SecondaryButton @click="copyToClipboard">
               Copy to Clipboard
             </SecondaryButton>
-            <PrimaryButton @click="saveToStore"> Save to Store </PrimaryButton>
+            <PrimaryButton :disabled="isSaving" @click="saveToStore">
+              {{ isSaving ? 'Saving...' : 'Save to Store' }}
+            </PrimaryButton>
           </div>
         </div>
         <div
